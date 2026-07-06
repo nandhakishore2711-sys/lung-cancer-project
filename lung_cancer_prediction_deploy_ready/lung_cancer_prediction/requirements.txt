@@ -1,0 +1,24 @@
+# --- Web app ---
+Flask==3.1.3
+Werkzeug==3.1.7
+Pillow==12.1.1
+gunicorn==23.0.0
+
+# --- Shared ---
+numpy>=1.26,<2.0
+scikit-learn>=1.4
+matplotlib>=3.8
+
+# --- TensorFlow backend ---
+# CPU is fine for the custom CNN; a GPU makes training much faster.
+tensorflow>=2.16,<2.17
+
+# --- PyTorch backend ---
+# If you have a CUDA GPU, install the matching CUDA build from
+# https://pytorch.org/get-started/locally/ instead of this line.
+torch>=2.2
+torchvision>=0.17
+
+# Note: you don't need BOTH frameworks installed to run the app — only the
+# one set in config.py / MODEL_BACKEND. If you only plan to use one
+# framework, you can delete the other's lines above before installing.

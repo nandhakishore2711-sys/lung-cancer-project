@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulmonary CT Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="shell">
+
+    <div class="top-bar">
+      <div class="brand">
+        <span class="brand-mark">CT&middot;DX</span>
+        <div>
+          <div class="brand-name">Pulmonary CT Analysis</div>
+          <div class="brand-sub">Deep learning decision support for thoracic CT review</div>
+        </div>
+      </div>
+      <div class="status-cluster">
+        <div class="status-chip {{ 'demo' if demo_mode else '' }}">
+          <span class="status-dot"></span>
+          {{ 'DEMO MODE' if demo_mode else 'MODEL LOADED' }}
+        </div>
+        <div class="status-chip">BACKEND: {{ backend|upper }}</div>
+      </div>
+    </div>
+
+    <div id="error-banner" class="error-banner"></div>
+
+    <div class="workspace">
+
+      <!-- LEFT: viewer / upload -->
+      <div class="panel">
+        <div class="panel-label">Scan Input</div>
+
+        <div class="viewer-frame" id="viewer-frame">
+          <div class="corner-tl"></div>
+          <div class="corner-tr"></div>
+          <div class="corner-bl"></div>
+          <div class="corner-br"></div>
+          <div class="scan-sweep" id="scan-sweep"></div>
+
+          <div class="dropzone" id="dropzone">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+              <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 3v12M7 8l5-5 5 5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="dz-title">Drop a CT slice or click to browse</div>
+            <div class="dz-sub">PNG &middot; JPG &middot; BMP &middot; TIFF &mdash; max 10MB</div>
+          </div>
+
+          <img id="preview-img" style="display:none;" alt="Uploaded CT scan" />
+          <input type="file" id="file-input" accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff" />
+        </div>
+
+        <div class="viewer-meta">
+          <span id="meta-filename">no file loaded</span>
+          <span id="meta-dims">&mdash;</span>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" id="analyze-btn" disabled>Run Analysis</button>
+          <button class="btn btn-secondary" id="reset-btn">Clear</button>
+        </div>
+      </div>
+
+      <!-- RIGHT: results -->
+      <div class="panel">
+        <div class="panel-label">Model Output</div>
+
+        <div id="result-empty" class="result-empty">
+          Upload a thoracic CT slice and run analysis to see a classification,
+          per-class confidence, and a Grad-CAM attention overlay showing which
+          region of the scan drove the prediction.
+        </div>
+
+        <div id="result-content" style="display:none;">
+          <div class="verdict">
+            <div>
+              <span id="verdict-tag" class="tag Normal">Class</span><br/>
+              <span id="verdict-class" class="verdict-class">&mdash;</span>
+            </div>
+            <div class="verdict-confidence">confidence: <span id="verdict-confidence">&mdash;</span></div>
+          </div>
+
+          <div id="prob-bars"></div>
+
+          <div class="gradcam-toggle">
+            <span>Show Grad-CAM attention overlay</span>
+            <div class="switch" id="gradcam-switch"></div>
+          </div>
+
+          <div class="disclaimer">
+            <strong>For educational / research use only.</strong> This tool is a
+            student/academic project, not a certified diagnostic device. Predictions
+            must be reviewed by a qualified radiologist and are not a substitute for
+            professional medical evaluation.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-note">CT&middot;DX &mdash; CNN-based lung nodule classification &middot; TensorFlow &amp; PyTorch reference implementations</div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

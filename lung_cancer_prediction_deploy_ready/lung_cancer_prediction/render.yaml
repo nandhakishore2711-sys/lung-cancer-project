@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: lung-cancer-prediction
+    runtime: docker
+    plan: free
+    envVars:
+      - key: MODEL_BACKEND
+        value: tensorflow
+      - key: MODEL_ARCHITECTURE
+        value: custom
+      - key: PORT
+        value: 8000
+    healthCheckPath: /health
